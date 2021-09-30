@@ -1,0 +1,94 @@
+CREATE TABLE IF NOT EXISTS `bank_operation`.`clients` (
+  `id` INT(10) NOT NULL,
+  `name` VARCHAR(1000) NULL,
+  `place_of_birth` VARCHAR(1000) NULL,
+  `date_of_birth` DATE NULL,
+  `address` VARCHAR(1000) NULL,
+  `passport` VARCHAR(100) NULL,
+  PRIMARY KEY (`id`))
+
+
+CREATE TABLE IF NOT EXISTS `bank_operation`.`tarifs` (
+  `id` INT(10) NOT NULL,
+  `name` VARCHAR(100) NULL,
+  `cost` DECIMAL(10,2) NULL,
+  PRIMARY KEY (`id`))
+
+
+CREATE TABLE IF NOT EXISTS `bank_operation`.`product_type` (
+  `id` INT(10) NOT NULL,
+  `name` VARCHAR(100) NULL,
+  `begin_date` DATE NULL,
+  `end_date` DATE NULL,
+  `tarif_ref` INT(10) NULL,
+  PRIMARY KEY (`id`),
+  INDEX `prod_type_tar_fk_idx` (`tarif_ref` ASC) VISIBLE,
+  CONSTRAINT `prod_type_tar_fk`
+    FOREIGN KEY (`tarif_ref`)
+    REFERENCES `bank_operation`.`tarifs` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+
+
+CREATE TABLE IF NOT EXISTS `bank_operation`.`products` (
+  `id` INT(10) NOT NULL,
+  `product_type_id` INT(10) NULL,
+  `name` VARCHAR(100) NULL,
+  `client_ref` INT(10) NULL,
+  `open_date` DATE NULL,
+  `close_date` DATE NULL,
+  PRIMARY KEY (`id`),
+  INDEX `prod_prodtype_fk_idx` (`product_type_id` ASC) VISIBLE,
+  INDEX `prod_cl_fk_idx` (`client_ref` ASC) VISIBLE,
+  CONSTRAINT `prod_cl_fk`
+    FOREIGN KEY (`client_ref`)
+    REFERENCES `bank_operation`.`clients` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `prod_prodtype_fk`
+    FOREIGN KEY (`product_type_id`)
+    REFERENCES `bank_operation`.`product_type` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+
+
+CREATE TABLE IF NOT EXISTS `bank_operation`.`accounts` (
+  `id` INT(10) NOT NULL,
+  `name` VARCHAR(100) NULL,
+  `saldo` DECIMAL(10,2) NULL,
+  `client_ref` INT(10) NULL,
+  `open_date` DATE NULL,
+  `close_date` DATE NULL,
+  `product_ref` INT(10) NULL,
+  `acc_num` VARCHAR(25) NULL,
+  PRIMARY KEY (`id`),
+  INDEX `acc_cl_fk_idx` (`client_ref` ASC) VISIBLE,
+  INDEX `acc_prod_fk_idx` (`product_ref` ASC) VISIBLE,
+  CONSTRAINT `acc_cl_fk`
+    FOREIGN KEY (`client_ref`)
+    REFERENCES `bank_operation`.`clients` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `acc_prod_fk`
+    FOREIGN KEY (`product_ref`)
+    REFERENCES `bank_operation`.`products` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+
+
+CREATE TABLE IF NOT EXISTS `bank_operation`.`records` (
+  `id` INT(10) NOT NULL,
+  `dt` INT(1) NULL,
+  `sum` DECIMAL(10,2) NULL,
+  `acc_ref` INT(10) NULL,
+  `open_date` DATE NULL,
+  PRIMARY KEY (`id`),
+  INDEX `rec_acc_fk_idx` (`acc_ref` ASC) VISIBLE,
+  CONSTRAINT `rec_acc_fk`
+    FOREIGN KEY (`acc_ref`)
+    REFERENCES `bank_operation`.`accounts` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+
+
+

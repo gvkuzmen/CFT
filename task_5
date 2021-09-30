@@ -1,0 +1,7 @@
+use bank_operation;
+
+select product_type.name,records.open_date, avg(records.sum) as 'Среднее движение по счетам'
+from records inner join accounts on records.acc_ref = accounts.id
+inner join products on products.id = accounts.product_ref
+inner join product_type on product_type.id = products.product_type_id
+group by product_type.name, records.open_date;
