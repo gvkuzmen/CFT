@@ -1,0 +1,8 @@
+USE bank_operation;
+
+SELECT acc_num
+FROM accounts a INNER JOIN products pd ON a.product_ref = pd.id
+			  INNER JOIN product_type pt ON pt.id = pd.product_type_id AND pt.name = 'ДЕПОЗИТ'
+WHERE a.client_ref NOT IN (SELECT pd1.client_ref
+FROM products pd1 INNER JOIN product_type pt1 ON pt1.id = pd1.product_type_id
+ AND pt1.name = 'КРЕДИТ');

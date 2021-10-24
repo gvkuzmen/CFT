@@ -1,0 +1,29 @@
+USE bank_operation;
+
+ALTER TABLE products
+ADD max_sum INT;
+
+UPDATE products pd, (SELECT pd.product_type_id,MAX(r.sum) AS debit
+FROM records r 
+	 INNER JOIN accounts a ON r.acc_ref = a.id
+     INNER JOIN products pd ON pd.id = a.product_ref
+     INNER JOIN product_type pt ON pt.id = pd.product_type_id
+     WHERE pt.name = 'КРЕДИТ' AND r.dt = 1
+     GROUP BY pd.product_type_id) AS max_debit
+SET pd.max_sum = max_debit.debit
+WHERE pd.product_type_id = max_debit.product_type_id;
+
+
+UPDATE products pd, (SELECT pd.product_type_id,MAX(r.sum) AS credit
+FROM records r 
+	 INNER JOIN accounts a ON r.acc_ref = a.id
+     INNER JOIN products pd ON pd.id = a.product_ref
+     INNER JOIN product_type pt ON pt.id = pd.product_type_id
+     WHERE pt.name IN ('ДЕПОЗИТ','КАРТА') AND r.dt = 0
+     GROUP BY pd.product_type_id) AS max_credit
+SET pd.max_sum = max_credit.credit
+WHERE pd.product_type_id = max_credit.product_type_id;
+
+
+
+

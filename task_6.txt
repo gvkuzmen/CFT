@@ -1,0 +1,7 @@
+USE bank_operation;
+
+SELECT c.name, r.open_date, SUM(r.sum) AS 'Сумма операций за день'
+FROM clients c INNER JOIN accounts a ON c.id=a.client_ref
+INNER JOIN records r ON r.acc_ref=a.id
+GROUP BY c.name, r.open_date
+HAVING DATEDIFF(CURRENT_DATE(),open_date)< 31;

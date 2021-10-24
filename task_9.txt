@@ -1,0 +1,22 @@
+
+
+
+USE bank_operation;
+
+UPDATE products, (SELECT prd.id
+FROM products prd 
+	 INNER JOIN accounts a ON prd.id = a.product_ref
+     INNER JOIN product_type pt ON pt.id = prd.product_type_id 
+     AND pt.name = 'КРЕДИТ' 
+     AND prd.close_date IS NULL
+WHERE prd.id IN (SELECT prd.id
+FROM accounts a INNER JOIN products prd ON a.product_ref = prd.id
+INNER JOIN records r ON a.id = r.acc_ref
+WHERE a.product_ref = prd.id AND r.dt = 1
+GROUP BY prd.id
+HAVING COUNT(*) =1
+)
+GROUP BY prd.id
+HAVING SUM(a.saldo)=0) AS selected
+SET close_date = CURRENT_DATE()
+WHERE products.id = selected.id;

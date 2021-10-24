@@ -1,0 +1,13 @@
+/* Сформируйте выборку, который содержит информацию о клиентах, которые полностью
+погасили кредит, но при этом не закрыли продукт.
+
+ я поняла это задание так: тип продукта=кредит, SALDO=0 (означает что клиент ничего не должен), products.close_date= NULL (клиент продукт не закрыл)*/
+ 
+ 
+USE bank_operation;
+
+SELECT c.name, a.saldo 'Остаток по кредиту', pd.close_date 'Дата закрытия'
+FROM clients c INNER JOIN accounts a ON c.id=a.client_ref
+INNER JOIN products pd ON pd.id=a.product_ref
+INNER JOIN product_type pt ON pt.id=pd.product_type_id
+WHERE pt.name='КРЕДИТ' AND a.saldo='0' AND pd.close_date IS NULL; 
