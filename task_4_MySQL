@@ -1,8 +1,0 @@
-use bank_operation;
-
-select acc_num
-from accounts inner join products on accounts.product_ref = products.id
-			  inner join product_type on product_type.id = products.product_type_id and product_type.name = 'ДЕПОЗИТ'
-where accounts.client_ref not in (select products.client_ref
-from products inner join product_type on product_type.id = products.product_type_id
- and product_type.name = 'КРЕДИТ');
