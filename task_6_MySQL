@@ -1,9 +1,0 @@
-/* не сообразила как сделать выборку  "операции по счетам за
-прошедший месяц от текущей даты." */
-
-use bank_operation;
-
-select clients.name,records.open_date, sum(records.sum)
-from clients inner join accounts on clients.id = accounts.client_ref 
-inner join records on records.acc_ref = accounts.id
-group by clients.name, records.open_date;
