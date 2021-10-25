@@ -1,0 +1,14 @@
+WITH problem (id,sum_rec) 
+AS (SELECT a.id, (SELECT SUM(sum * CASE WHEN dt = 0 THEN 1 ELSE -1 END)
+       FROM records
+       WHERE acc_ref = a.id) AS sum_rec
+FROM accounts a
+WHERE a.saldo != (SELECT SUM(sum * CASE WHEN dt = 0 THEN 1 ELSE -1 END)
+       FROM records
+       WHERE acc_ref = a.id))
+
+
+
+UPDATE accounts a, problem pb
+SET a.saldo = pb.sum_rec
+WHERE a.id = pb.id;
