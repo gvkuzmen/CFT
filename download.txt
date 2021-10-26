@@ -1,0 +1,80 @@
+
+insert into products values (7, 2, 'Депозитный договор с Ивановым П.С.', 2, '2021.06.21', null);
+insert into products values (8, 2, 'Депозитный договор с Ивановым П.С.', 2, '2021.10.21', null);
+insert into products values (9, 3, 'Карточный договор с Ивановым П.С.', 2, '2021.06.20', null);
+
+insert into products values (10, 1, 'Кредитный договор с Петровым С.И.', 3, '2021.10.20', null);
+insert into products values (11, 1, 'Кредитный договор с Петровым С.И.', 3, '2021.09.01', '2021.10.11');
+
+
+insert into accounts values (4, 'Депозитный счет для Иванова П.С.', 10000, 2, '2021.08.31', null, 4, '45502810401020006666');
+insert into accounts values (5, 'Депозитный счет для Иванова П.С.', 6000, 2, '2021.08.31', null, 5, '4230181040000000888');
+insert into accounts values (6, 'Карточный счет для Иванова П.С.', 8000, 2, '2021.08.31', null, 6, '4081781070000000999');
+
+insert into accounts values (7, 'Кредитный счет для Петрова С.И.', 0, 3, '2021.10.20', null, 10, '45502810401020000000');
+insert into accounts values (9, 'Кредитный счет для Петрова С.И.', -2000, 3, '2021.01.21', null, 10, '455028104010200000123');
+insert into accounts values (10, 'Кредитный счет для Петрова С.И.', 0, 3, '2021.02.01', null, 10, '455028104010200000456');
+insert into accounts values (11, 'Кредитный счет для Петрова С.И.', 0, 3, '2021.07.04', null, 10, '45502810401020000789'');
+
+insert into accounts values (8, 'Кредитный счет для Петрова С.И.', 0, 3, '2021.09.01', '2021.10.10',11,'42301810400000006789');
+insert into accounts values (12, 'Кредитный счет для Петрова С.И.', 0, 3, '2021.07.11', '2021.10.10',11,'42301810400000006790');
+insert into accounts values (13, 'Кредитный счет для Петрова С.И.', 0, 3, '2021.05.31', '2021.10.10',11,'42301810400000006791');
+
+
+insert into records values (16, 1, 5000, 4, '2021.09.15');
+insert into records values (17, 0, 1000, 4, '2021.09.15');
+insert into records values (18, 0, 2000, 4, '2021.09.16');
+insert into records values (20, 1, 5000, 4, '2021.09.16');
+insert into records values (21, 0, 3000, 4, '2021.09.16');
+
+insert into records values (19, 0, 10000, 5, '2021.09.19');
+insert into records values (22, 1, 1000, 5, '2021.09.19');
+insert into records values (23, 1, 2000, 5, '2021.09.19');
+insert into records values (24, 1, 5000, 5, '2021.09.19');
+insert into records values (25, 0, 6000, 5, '2021.09.19');
+
+insert into records values (26, 0, 120000, 6, '2021.09.21');
+insert into records values (27, 1, 1000, 6, '2021.09.21');
+insert into records values (28, 1, 2000, 6, '2021.09.03');
+insert into records values (29, 1, 5000, 6, '2021.09.03');
+
+
+
+insert into records values (30, 1, 5000, 4, '2021.10.20');
+insert into records values (31, 0, 1000, 4, '2021.10.20');
+insert into records values (32, 0, 2000, 4, '2021.10.19');
+insert into records values (33, 1, 5000, 4, '2021.10.20');
+insert into records values (34, 0, 3000, 4, '2021.10.20');
+
+insert into records values (35, 0, 10000, 5, '2021.10.19');
+insert into records values (36, 1, 1000, 5, '2021.10.09');
+insert into records values (37, 1, 2000, 5, '2021.10.19');
+insert into records values (38, 1, 5000, 5, '2021.10.19');
+insert into records values (39, 0, 6000, 5, '2021.10.19');
+
+insert into records values (40, 0, 120000, 6, '2021.10.11');
+insert into records values (41, 1, 1000, 6, '2021.10.11');
+insert into records values (42, 1, 2000, 6, '2021.10.03');
+insert into records values (43, 1, 5000, 6, '2021.10.03');
+
+insert into records values (44, 1, 3000, 7, '2021.10.20');
+insert into records values (45, 0, 3000, 7, '2021.10.20');
+insert into records values (46, 1, 2000, 8, '2021.09.01');
+insert into records values (47, 0, 2000, 8, '2021.10.11');
+
+insert into records values (48, 1, 2000, 9, '2021.09.01');
+
+insert into records values (49, 1, 2000, 13, '2021.08.01');
+insert into records values (50, 1, 2000, 13, '2021.09.01');
+insert into records values (51, 0, 4000, 13, '2021.10.01');
+
+
+
+
+
+
+
+
+
+
+
