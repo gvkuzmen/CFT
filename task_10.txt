@@ -1,7 +1,0 @@
-UPDATE product_type, (SELECT DISTINCT t.id
-         FROM products p
-			  INNER JOIN accounts a ON a.product_ref = p.id
-              INNER JOIN records r ON r.acc_ref = a.id AND DATEDIFF(CURRENT_DATE(),r.open_date) > 31
-              INNER JOIN product_type t ON t.id = p.product_type_id) AS new_select
-SET end_date = CURRENT_DATE()
-WHERE product_type.id = new_select.id;
