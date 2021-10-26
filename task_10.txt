@@ -1,0 +1,17 @@
+WITH more_month (id,last_date,pr_name)
+AS (SELECT r.acc_ref,MAX(r.open_date), pt.name
+	FROM records r inner join accounts a on r.acc_ref = a.id
+	inner join products pd on pd.id = a.product_ref
+	inner join product_type pt on pt.id = pd.product_type_id
+	GROUP BY acc_ref
+    )
+
+UPDATE product_type, more_month mm, (SELECT DISTINCT t.id
+         FROM products p
+			  INNER JOIN accounts a ON a.product_ref = p.id
+              INNER JOIN records r ON r.acc_ref = a.id 
+              INNER JOIN product_type t ON t.id = p.product_type_id
+			  inner join more_month mm on mm.id = r.acc_ref AND DATEDIFF(CURRENT_DATE(),mm.last_date) > 31
+              ) AS new_select
+SET end_date = CURRENT_DATE()
+WHERE product_type.id = new_select.id;
