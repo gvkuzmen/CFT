@@ -1,10 +1,10 @@
-Выполнено в Oracle Database 19c Enterprise Edition Release 19.0.0.0.0
+Выполнено в Oracle Database 19c Enterprise Edition
 
 /*Создание таблицы с категориями товаров
 id- уникальный номер категории
 name- имя категории*/
 
-CREATE TABLE category(cat_id NUMBER PRIMARY KEY NOT NULL, name VARCHAR2 (50));
+CREATE TABLE category(cat_id NUMBER PRIMARY KEY NOT NULL, name VARCHAR2 (200), p_id NUMBER);
 
 /*Создание таблицы с ответственными за продукт
 in_ch_id-  уникальный номер ответственного
@@ -21,7 +21,7 @@ in_charge_id- ссфлка на ответственного за продукт
 CREATE TABLE product ( 
 prd_id NUMBER PRIMARY KEY NOT NULL, 
 cat_id NUMBER, 
-name VARCHAR2(50),
+name VARCHAR2(200),
 price NUMBER,
 in_charge_id NUMBER,
 CONSTRAINT fk_category 
@@ -53,78 +53,150 @@ FOREIGN KEY (prd_id)
 REFERENCES product (prd_id));
 
 /*Заполение данными таблицы с категориями продуктов*/
-INSERT INTO category (cat_id, name) VALUES (1,'Бытовая техника');
-INSERT INTO category (cat_id, name) VALUES (2,'Инструменты');
-INSERT INTO category (cat_id, name) VALUES (3,'Компьютеры');
-INSERT INTO category (cat_id, name) VALUES (4,'Телефоны');
-INSERT INTO category (cat_id, name) VALUES (5,'Автотовары');
+
+INSERT INTO category (cat_id, name,p_id) VALUES (1,'Общий каталог',NULL);
+INSERT INTO category (cat_id, name,p_id) VALUES (2,'Бытовая техника',1);
+INSERT INTO category (cat_id, name,p_id) VALUES (3,'Техника для кухни',2);
+INSERT INTO category (cat_id, name,p_id) VALUES (4,'Техника для дома',2);
+
+
+INSERT INTO category (cat_id, name,p_id) VALUES (5,'Инструменты',1);
+
+INSERT INTO category (cat_id, name,p_id) VALUES (6,'Компьютеры',1);
+
+INSERT INTO category (cat_id, name,p_id) VALUES (7,'Смартфоны, планшеты' и. фототехника,1);
+INSERT INTO category (cat_id, name,p_id) VALUES (8,'Смартфоны и гаджеты',7);
+INSERT INTO category (cat_id, name,p_id) VALUES (9,'Планшеты и электронные книги',7);
+INSERT INTO category (cat_id, name,p_id) VALUES (10,'Смартфоны',8);
+INSERT INTO category (cat_id, name,p_id) VALUES (11,'Смарт-часы',8);
+INSERT INTO category (cat_id, name,p_id) VALUES (12,'Планшеты',9);
+INSERT INTO category (cat_id, name,p_id) VALUES (13,'Электронные книги',9);
+
+INSERT INTO category (cat_id, name,p_id) VALUES (14,'Автотовары',1);
 
 /*Заполение данными таблицы с ответственными*/
 INSERT INTO in_charge (in_ch_id, full_name) VALUES (1,'Илья Потапов');
-NSERT INTO in_charge (in_ch_id, full_name) VALUES (2,'Ольга Кумушкина');
-NSERT INTO in_charge (in_ch_id, full_name) VALUES (3,'Идрис Сухов');
+INSERT INTO in_charge (in_ch_id, full_name) VALUES (2,'Ольга Кумушкина');
+INSERT INTO in_charge (in_ch_id, full_name) VALUES (3,'Идрис Сухов');
 
 /*Заполение данными таблицы с продуктами*/
-INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (1,1,'Стиральная машина',5000, 1);
-INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (2,1,'Утюг',1500, 2);
-INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (3,2,'Газонокосилка',15000, 3);
-INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (4,2,'Дрель',7300, 1);
-INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (5,3,'Ноутбук ASUS',35000,2);
-INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (6,3,'MacBooKPro',55000, 3);
-INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (7,3,'Ноутбук HP',45000, 1);
-INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (8,3,'Ноутбук IRBIS',37000, 2);
-INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (9,4,'Смартфон Huawei',15000, 3);
-INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (10,4,'Смартфон APPLE',45000, 1);
-INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (11,5,'Видеорегистратор',9000, 2);
-INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (12,5,'Радар-детектор',11000, 3);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (1,4,'Стиральная машина',5000, 1);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (2,4,'Утюг',1500, 2);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (3,3,'Холодильник',65000, 1);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (4,3,'Блендер',5500, 2);
+
+
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (5,5,'Газонокосилка',15000, 3);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (6,5,'Дрель',7300, 1);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (7,6,'Ноутбук ASUS',35000,2);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (8,6,'MacBooKPro',55000, 3);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (9,6,'Ноутбук HP',45000, 1);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (10,6,'Ноутбук IRBIS',37000, 2);
+
+
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (11,10,'Смартфон Huawei',15000, 3);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (12,10,'Смартфон APPLE',45000, 1);
+
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (13,11,'Смартфон-часы APPLE',35000, 1);
+
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (14,12,'Планшет',25000, 1);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (15,13,'Электронная книга',35000, 1);
+
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (16,14,'Видеорегистратор',9000, 2);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (17,14,'Радар-детектор',11000, 3);
 
 /*Заполение данными таблицы с движением продуктов*/
+
 INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (1,'17.10.2020',1,10,'шт.',1);
 INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (2,'21.10.2020',1,3,'шт.',0);
-INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (7,'17.10.2020',1,7,'шт.',1);
-INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (8,'21.10.2020',1,2,'шт.',0);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (3,'17.10.2020',1,7,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (4,'21.10.2020',1,2,'шт.',0);
 
-INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (3,'01.10.2019',2,20,'шт.',1);
-INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (4,'02.10.2019',2,5,'шт.',0);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (5,'01.10.2019',2,20,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (6,'02.10.2019',2,5,'шт.',0);
 
-INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (5,'11.03.2019',3,10,'шт.',1);
-INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (6,'12.04.2019',3,5,'шт.',0);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (7,'11.03.2019',3,10,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (8,'12.04.2019',3,5,'шт.',0);
+
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (9,'11.04.2009',4,100,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (10,'12.04.2009',4,50,'шт.',0);
+
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (11,'11.03.2019',5,10,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (12,'12.04.2019',5,5,'шт.',0);
+
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (13,'12.03.2019',6,12,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (14,'13.04.2019',6,7,'шт.',0);
+
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (15,'18.03.2019',7,10,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (16,'19.04.2019',7,7,'шт.',0);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (17,'18.03.2019',8,19,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (18,'19.04.2019',8,8,'шт.',0);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (19,'18.03.2019',9,17,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (20,'19.04.2019',9,2,'шт.',0);
+
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (21,'11.03.2019',11,10,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (22,'12.04.2019',11,5,'шт.',0);
+
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (23,'19.07.2020',12,12,'шт.',1);
+
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (24,'11.05.2019',13,16,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (25,'12.05.2019',13,4,'шт.',0);
 
 
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (26,'19.03.2019',14,7,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (27,'19.03.2019',14,7,'шт.',0);
 
-/* Выборка по категориям продукта в формате:
-Наименование категории ||  Приход продуктов в рублях || Продажи продуктов в рублях */
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (28,'01.05.2019',15,16,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (29,'10.05.2019',15,9,'шт.',0);
 
-SELECT category.name, 
-(SELECT sum(product.price*warehouse.count_prd) 
-FROM product,warehouse
-WHERE category.cat_id = product.cat_id AND product.prd_id  = warehouse.prd_id AND warehouse.kt_dt = 1) AS Income,
-(SELECT sum(product.price*warehouse.count_prd) 
-FROM product,warehouse
-WHERE category.cat_id = product.cat_id AND product.prd_id  = warehouse.prd_id AND warehouse.kt_dt = 0) AS Waste
-FROM category;
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (30,'19.03.2019',16,7,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (31,'19.03.2019',16,3,'шт.',0);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (33,'19.03.2019',16,9,'шт.',1);
+
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (34,'01.05.2019',17,16,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (35,'05.05.2019',17,15,'шт.',0);
 
 
-/* Выборка по категориям продукта в формате:
-Наименование продукта||  Приход продукта в рублях || Продажи продукта в рублях || Приход продукта в штуках || Продажи продукта в штуках  || Остаток продукта в штуках */
+/*Выборка в соответствии с заданием:
+<Наименование раздела каталога уровня1>      || Поступление. Руб. || Расход. Руб
+<Наименование раздела каталога уровня(K-1)> || Поступление. Руб. || Расход. Руб
+ <Наименование раздела каталога уровня(K)>  || Поступление. Руб. || Расход. Руб
+   <Наименование Продукта1 этого раздела>   || Поступление. Руб. || Расход. Руб || Поступление. Количество || Расход. Количество ||Остаток
+   ...
+   <Наименование ПродуктаN этого раздела>   || Поступление. Руб. || Расход. Руб || Поступление. Количество || Расход. Количество || Остаток 
+ <Наименование раздела каталога уровня(K)>  || Поступление. Руб. || Расход. Руб
+   <Наименование Продукта1 этого раздела>   || Поступление. Руб. || Расход. Руб || Поступление. Количество || Расход. Количество || Остаток
+   ...
+   <Наименование ПродуктаN этого раздела>   || Поступление. Руб. || Расход. Руб || Поступление. Количество || Расход. Количество || Остаток 
 
-SELECT product.name,
-(SELECT sum(product.price*warehouse.count_prd)
-FROM warehouse
-WHERE product.prd_id  = warehouse.prd_id AND warehouse.kt_dt = 1 ) AS tot_sum_income,
-(SELECT sum(product.price*warehouse.count_prd)
-FROM warehouse
-WHERE product.prd_id  = warehouse.prd_id AND warehouse.kt_dt = 0) AS tot_sum_waste,
-(SELECT sum(warehouse.count_prd)
-FROM warehouse
-WHERE product.prd_id  = warehouse.prd_id AND warehouse.kt_dt = 1) AS prd_count_in,
-(SELECT sum(warehouse.count_prd)
-FROM warehouse
-WHERE product.prd_id  = warehouse.prd_id AND warehouse.kt_dt = 0) AS prd_count_out,
-(SELECT sum(warehouse.COUNT_PRD* decode(warehouse.KT_DT,1,1,-1)) 
-FROM warehouse 
-WHERE product.prd_id  = warehouse.prd_id) AS Balance
-FROM product;
+*/
+SELECT lpad(' ', (LEVEL -1) * 2) || name, x.incom, x.outcom,x.received,x.sold,x.balance  -- какие данные будут  в выборке
+FROM ( 
+SELECT  ctr.cat_id , ctr.p_id, ctr.name ,  
+sum(CASE WHEN kt_dt  = '1' THEN wr.count_prd*pr.price END) AS incom,  --Поступление. Руб
+sum(CASE WHEN kt_dt  = '0' THEN wr.count_prd*pr.price END) AS outcom,  -- Расход. Руб
+NULL AS received, -- колонка-заглушка для обединения
+NULL AS sold,  -- колонка-заглушка для обединения
+NULL AS balance. -- колонка-заглушка для обединения
+FROM category ctr LEFT JOIN product pr ON ctr.cat_id = pr.cat_id  
+LEFT JOIN warehouse wr on pr.prd_id  = wr.prd_id
+GROUP BY ctr.cat_id, ctr.p_id, ctr.name 
+
+UNION ALL
+
+SELECT NULL, cat_id, name,
+sum(case when kt_dt  = '1' THEN wr.count_prd*pr.price END) incom,  --Поступление. Руб
+sum(case when kt_dt = '0' THEN wr.count_prd*pr.price END) outcom,  -- Расход. Руб
+sum(case when kt_dt = '1' THEN wr.count_prd END) received, -- Поступление. Количество
+sum(case when kt_dt = '0' THEN wr.count_prd END) sold,  --Расход. Количество 
+sum(case when kt_dt = '1' THEN 1 ELSE -1 END * wr.count_prd) balance --Остаток
+FROM product pr INNER JOIN warehouse wr ON wr.prd_id = pr.prd_id
+GROUP BY cat_id, name
+) X 
+CONNECT BY PRIOR cat_id = p_id  -- правило построение иерархии. сначала выбирается та категория, у которой  p_id IS NULL, далее проверяется вся таблица 
+на выполнение условия PRIOR cat_id = p_id и там где cat_id = p_id в только что выбранной строке дает true добавляет строку в иерархию
+START WITH p_id IS NULL  -- указание откуда начинаем строить иерархию
+ORDER siblings BY name; -- сортировка внутри узла
 
 
 
