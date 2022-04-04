@@ -1,0 +1,130 @@
+Выполнено в Oracle Database 19c Enterprise Edition Release 19.0.0.0.0
+
+/*Создание таблицы с категориями товаров
+id- уникальный номер категории
+name- имя категории*/
+
+CREATE TABLE category(cat_id NUMBER PRIMARY KEY NOT NULL, name VARCHAR2 (50));
+
+/*Создание таблицы с ответственными за продукт
+in_ch_id-  уникальный номер ответственного
+full_name- Фамилия и имя ответственного*/
+CREATE TABLE in_charge (in_ch_id NUMBER PRIMARY KEY NOT NULL, full_name VARCHAR2 (200));
+
+/*Создание таблицы с продуктами
+prd_id- уникальны номер продукта
+cat_id- ссылка на категорию, которой приналежит продукт
+name- название продукта
+price- цена продукта
+in_charge_id- ссфлка на ответственного за продукт
+*/
+CREATE TABLE product ( 
+prd_id NUMBER PRIMARY KEY NOT NULL, 
+cat_id NUMBER, 
+name VARCHAR2(50),
+price NUMBER,
+in_charge_id NUMBER,
+CONSTRAINT fk_category 
+FOREIGN KEY (cat_id) 
+REFERENCES category (cat_id));
+
+ALTER TABLE  product
+ADD CONSTRAINT fk_in_charge
+FOREIGN KEY (in_charge_id)
+REFERENCES in_charge (in_ch_id);
+
+/*Создание таблицы с движением товаров (поступление и продажи)
+record_id- уникальный номер записи
+date_record- дата записи
+prd_id- ссылка на продукт, по которому идет движение
+count_prd- количество поступившего или проданного продукта
+unit- единица измерения продукта
+kt_dt- признак поступления (1) или продажи товара (0)
+*/
+CREATE TABLE warehouse (
+record_id NUMBER PRIMARY KEY NOT NULL,
+date_record DATE,
+prd_id NUMBER,
+count_prd NUMBER,
+unit VARCHAR2(20),
+kt_dt NUMBER ,
+CONSTRAINT fk_product 
+FOREIGN KEY (prd_id) 
+REFERENCES product (prd_id));
+
+/*Заполение данными таблицы с категориями продуктов*/
+INSERT INTO category (cat_id, name) VALUES (1,'Бытовая техника');
+INSERT INTO category (cat_id, name) VALUES (2,'Инструменты');
+INSERT INTO category (cat_id, name) VALUES (3,'Компьютеры');
+INSERT INTO category (cat_id, name) VALUES (4,'Телефоны');
+INSERT INTO category (cat_id, name) VALUES (5,'Автотовары');
+
+/*Заполение данными таблицы с ответственными*/
+INSERT INTO in_charge (in_ch_id, full_name) VALUES (1,'Илья Потапов');
+NSERT INTO in_charge (in_ch_id, full_name) VALUES (2,'Ольга Кумушкина');
+NSERT INTO in_charge (in_ch_id, full_name) VALUES (3,'Идрис Сухов');
+
+/*Заполение данными таблицы с продуктами*/
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (1,1,'Стиральная машина',5000, 1);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (2,1,'Утюг',1500, 2);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (3,2,'Газонокосилка',15000, 3);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (4,2,'Дрель',7300, 1);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (5,3,'Ноутбук ASUS',35000,2);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (6,3,'MacBooKPro',55000, 3);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (7,3,'Ноутбук HP',45000, 1);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (8,3,'Ноутбук IRBIS',37000, 2);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (9,4,'Смартфон Huawei',15000, 3);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (10,4,'Смартфон APPLE',45000, 1);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (11,5,'Видеорегистратор',9000, 2);
+INSERT INTO product (prd_id, cat_id,  name, price, in_charge_id) VALUES (12,5,'Радар-детектор',11000, 3);
+
+/*Заполение данными таблицы с движением продуктов*/
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (1,'17.10.2020',1,10,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (2,'21.10.2020',1,3,'шт.',0);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (7,'17.10.2020',1,7,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (8,'21.10.2020',1,2,'шт.',0);
+
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (3,'01.10.2019',2,20,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (4,'02.10.2019',2,5,'шт.',0);
+
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (5,'11.03.2019',3,10,'шт.',1);
+INSERT INTO warehouse(record_id,date_record,prd_id,count_prd,unit,kt_dt) VALUES (6,'12.04.2019',3,5,'шт.',0);
+
+
+
+/* Выборка по категориям продукта в формате:
+Наименование категории ||  Приход продуктов в рублях || Продажи продуктов в рублях */
+
+SELECT category.name, 
+(SELECT sum(product.price*warehouse.count_prd) 
+FROM product,warehouse
+WHERE category.cat_id = product.cat_id AND product.prd_id  = warehouse.prd_id AND warehouse.kt_dt = 1) AS Income,
+(SELECT sum(product.price*warehouse.count_prd) 
+FROM product,warehouse
+WHERE category.cat_id = product.cat_id AND product.prd_id  = warehouse.prd_id AND warehouse.kt_dt = 0) AS Waste
+FROM category;
+
+
+/* Выборка по категориям продукта в формате:
+Наименование продукта||  Приход продукта в рублях || Продажи продукта в рублях || Приход продукта в штуках || Продажи продукта в штуках  || Остаток продукта в штуках */
+
+SELECT product.name,
+(SELECT sum(product.price*warehouse.count_prd)
+FROM warehouse
+WHERE product.prd_id  = warehouse.prd_id AND warehouse.kt_dt = 1 ) AS tot_sum_income,
+(SELECT sum(product.price*warehouse.count_prd)
+FROM warehouse
+WHERE product.prd_id  = warehouse.prd_id AND warehouse.kt_dt = 0) AS tot_sum_waste,
+(SELECT sum(warehouse.count_prd)
+FROM warehouse
+WHERE product.prd_id  = warehouse.prd_id AND warehouse.kt_dt = 1) AS prd_count_in,
+(SELECT sum(warehouse.count_prd)
+FROM warehouse
+WHERE product.prd_id  = warehouse.prd_id AND warehouse.kt_dt = 0) AS prd_count_out,
+(SELECT sum(warehouse.COUNT_PRD* decode(warehouse.KT_DT,1,1,-1)) 
+FROM warehouse 
+WHERE product.prd_id  = warehouse.prd_id) AS Balance
+FROM product;
+
+
+
